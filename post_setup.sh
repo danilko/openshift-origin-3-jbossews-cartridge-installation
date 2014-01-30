@@ -61,12 +61,10 @@ rm -rf  apache-tomcat-${TOMCAT6_VER}
 # Resource limit file
 RESOURCE_LIMIT_CONFIG_FILE=/etc/openshift/resource_limits.conf
 sed -i 's^node_profile=small^node_profile=medium^g' ${RESOURCE_LIMIT_CONFIG_FILE}
-sed -i 's^quota_blocks=1048576^quota_blocks=2097152^g' ${RESOURCE_LIMIT_CONFIG_FILE}
+sed -i 's^quota_blocks=1048576^quota_blocks=4194304^g' ${RESOURCE_LIMIT_CONFIG_FILE}
 sed -i 's^quota_files=80000^quota_files=999999^g' ${RESOURCE_LIMIT_CONFIG_FILE}
 sed -i 's^memory_limit_in_bytes=536870912       # 512MB^memory_limit_in_bytes=1073741824       # 1024MB^g' ${RESOURCE_LIMIT_CONFIG_FILE}
 sed -i 's^memory_memsw_limit_in_bytes=641728512 # 512M + 100M (100M swap)^memory_memsw_limit_in_bytes=1178599424 # 1024M + 100M (100M swap)^g' ${RESOURCE_LIMIT_CONFIG_FILE}
-
-sed -i 's^# limits_nofile=unlimited^limits_nofile=unlimited^g' ${RESOURCE_LIMIT_CONFIG_FILE}
 
 # Reboot node services
 service mcollective restart
