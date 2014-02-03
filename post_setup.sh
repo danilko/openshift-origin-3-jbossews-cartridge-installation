@@ -66,6 +66,13 @@ sed -i 's^quota_files=80000^quota_files=999999^g' ${RESOURCE_LIMIT_CONFIG_FILE}
 sed -i 's^memory_limit_in_bytes=536870912       # 512MB^memory_limit_in_bytes=1073741824       # 1024MB^g' ${RESOURCE_LIMIT_CONFIG_FILE}
 sed -i 's^memory_memsw_limit_in_bytes=641728512 # 512M + 100M (100M swap)^memory_memsw_limit_in_bytes=1178599424 # 1024M + 100M (100M swap)^g' ${RESOURCE_LIMIT_CONFIG_FILE}
 
+# Set the file connection limit
+RESOURCE_LIMIT_CONFIG_FILE=/etc/security/limits.conf
+sed -i 's^#End of file^^g' ${RESOURCE_LIMIT_CONFIG_FILE}
+
+echo -e "\n* soft nofile 32000\n* hard nofile 32000" >> ${RESOURCE_LIMIT_CONFIG_FILE}
+echo -e "\n#End of file" >> ${RESOURCE_LIMIT_CONFIG_FILE}
+
 # Reboot node services
 service mcollective restart
 oo-cgroup-enable --with-all-containers
